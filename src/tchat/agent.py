@@ -2,6 +2,7 @@ from typing import Literal
 from agno.agent import Agent
 from agno.models.ollama import Ollama
 from pydantic import BaseModel
+from agno.tools.reasoning import ReasoningTools
 
 
 ASSISTANT_SYSTEM = """You are a helpful assistant."""
@@ -42,4 +43,8 @@ def get_agent(config: AgentConfig | None = None) -> Agent:
         host=config.model.host,
         system_prompt=config.model.system_prompt,
     )
-    return Agent(model=llm)
+    return Agent(
+        model=llm,
+        markdown=True,
+        tools=[ReasoningTools(add_instructions=True)],
+    )

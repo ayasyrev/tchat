@@ -76,7 +76,12 @@ class TChat(App):
         """Get the response in a thread."""
 
         response_content = ""
-        response_stream: Iterator[RunResponse] = self.agent.run(prompt, stream=True)
+        response_stream: Iterator[RunResponse] = self.agent.run(
+            prompt,
+            stream=True,
+            # show_full_reasoning=True,
+            # stream_intermediate_steps=True,
+        )
         for chunk in response_stream:
             if chunk.content:
                 response_content += chunk.content
@@ -88,6 +93,7 @@ def main():
     config = AgentConfig(
         model=OllamaConfig(
             # id="qwen2.5-coder:1.5b",
+            id="qwen2.5:14b",
         )
     )
     app = TChat(config=config)
